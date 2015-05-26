@@ -13,6 +13,9 @@ var expect = Chai.expect;
 var it = lab.test;
 var before = lab.before;
 var after = lab.after;
+var CP = require('child_process');
+var Path = require('path');
+var beforeEach = lab.beforeEach;
 
 var server;
 
@@ -24,13 +27,20 @@ describe('POST /users', function(){
       done();
     });
   });
-
+  
+  beforeEach(function(done){
+    var db = server.app.environment.MONGO_URL.split('/')[3];
+    CP.execFile(Path.join(__dirname, '../../../../../scripts/clean-db.sh'), [db], {cwd: Path.join(__dirname, '../../../../../scripts')}, function(){
+      done();
+    });
+  });
+  
   after(function(done){
     server.stop(function(){
       Mongoose.disconnect(done);
     });
   });
-
+  
   it('should return an existing user', function(done){
     server.inject({method: 'POST', url: '/users', credentials: {_id: 3}}, function(response){
       expect(response.statusCode).to.equal(200);
@@ -38,11 +48,18 @@ describe('POST /users', function(){
       done();
     });
   });
-
+  
   it('should create a new user', function(done){
     server.inject({method: 'POST', url: '/users', credentials: {firebaseId: 99}}, function(response){
       expect(response.statusCode).to.equal(200);
       expect(response.result.toString()).to.have.length(24);
+      done();
+    });
+  });
+  
+  it('should bitch about creating an old user', function(done){
+    server.inject({method: 'POST', url: '/users', credentials: {_id: 'b00000000000000000000004'}, payload: {email: 'ccc@ccc.com', password: '321'}}, function(response){
+      expect(response.statusCode).to.equal(400);
       done();
     });
   });
