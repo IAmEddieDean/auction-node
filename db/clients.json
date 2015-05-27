@@ -1,0 +1,67 @@
+[
+  {
+    "_id": {"$oid": "c00000000000000000000001"},
+    "name": "Bob Bobson",
+    "displayName": "BobsBullets",
+    "email": "bob@bobsbullets.com",
+    "phone": 5555555555,
+    "address": {
+      "street": "123 main",
+      "city": "Fremont",
+      "state": "CA",
+      "zip": 78787
+    },
+    "createdAt": {"$date": 1431541109988},
+    "currentAuction": true,
+    "currentAuctions": [
+        {"auctionId": {"$oid": "d00000000000000000000001"}},
+        {"auctionId": {"$oid": "d00000000000000000000002"}}
+    ],
+    "completeAuctions": [
+        {"auctionId": {"$oid": "d00000000000000000000007"}}
+    ]
+  },
+
+  {
+    "_id": {"$oid": "c00000000000000000000002"},
+    "name": "John Johnson",
+    "displayName": "JohnsCons",
+    "email": "john@cons.com",
+    "phone": 5555555555,
+    "address": {
+      "street": "487 1st st",
+      "city": "Fremont",
+      "state": "CA",
+      "zip": 78787
+    },
+    "createdAt": {"$date": 1431541109988},
+    "currentAuction": true,
+    "currentAuctions": [
+        {"auctionId": {"$oid": "d00000000000000000000012"}}
+    ],
+    "completeAuctions": [
+        {"auctionId": {"$oid": "d00000000000000000000017"}}
+    ]
+  },
+
+  {
+    "_id": {"$oid": "c00000000000000000000003"},
+    "name": "Dan Daniewicz",
+    "displayName": "DannysFannies",
+    "email": "dan@daniewicz.com",
+    "phone": 5555555555,
+    "address": {
+      "street": "123 main",
+      "city": "Austin",
+      "state": "TX",
+      "zip": 78758
+    },
+    "createdAt": {"$date": 1431541109988},
+    "currentAuction": false,
+    "currentAuctions": [
+    ],
+    "completeAuctions": [
+        {"auctionId": {"$oid": "d00000000000000000000027"}}
+    ]
+  }
+]
