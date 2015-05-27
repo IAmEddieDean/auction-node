@@ -41,26 +41,26 @@ describe('POST /users', function(){
     });
   });
   
-  it('should return an existing user', function(done){
-    server.inject({method: 'POST', url: '/users', credentials: {_id: 3}}, function(response){
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.equal(3);
-      done();
-    });
-  });
-  
-  it('should create a new user', function(done){
-    server.inject({method: 'POST', url: '/users', credentials: {firebaseId: 99}}, function(response){
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.toString()).to.have.length(24);
-      done();
-    });
-  });
-  
-  it('should bitch about creating an old user', function(done){
-    server.inject({method: 'POST', url: '/users', credentials: {_id: 'b00000000000000000000004'}, payload: {email: 'ccc@ccc.com', password: '321'}}, function(response){
-      expect(response.statusCode).to.equal(400);
-      done();
-    });
-  });
+  // it('should return an existing user', function(done){
+  //   server.inject({method: 'POST', url: '/users', credentials: {_id: 3}}, function(response){
+  //     expect(response.statusCode).to.equal(200);
+  //     expect(response.result).to.equal(3);
+  //     done();
+  //   });
+  // });
+  //
+  // it('should create a new user', function(done){
+  //   server.inject({method: 'POST', url: '/users', credentials: {firebaseId: 99}}, function(response){
+  //     expect(response.statusCode).to.equal(200);
+  //     expect(response.result.toString()).to.have.length(24);
+  //     done();
+  //   });
+  // });
+  //
+  // it('should bitch about creating an old user', function(done){
+  //   server.inject({method: 'POST', url: '/users', credentials: {_id: 'b00000000000000000000004'}, payload: {email: 'ccc@ccc.com', password: '321'}}, function(response){
+  //     expect(response.statusCode).to.equal(400);
+  //     done();
+  //   });
+  // });
 });
