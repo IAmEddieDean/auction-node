@@ -13,6 +13,9 @@ var expect = Chai.expect;
 var it = lab.test;
 var before = lab.before;
 var after = lab.after;
+var CP = require('child_process');
+var Path = require('path');
+var beforeEach = lab.beforeEach;
 
 var server;
 
@@ -21,6 +24,14 @@ describe('authentication.js', function(){
     Server.init(function(err, srvr){
       if(err){ throw err; }
       server = srvr;
+      done();
+    });
+  });
+
+  beforeEach(function(done){
+    var db = server.app.environment.MONGO_URL.split('/')[3];
+    console.log(db);
+    CP.execFile(Path.join(__dirname, '../../scripts/clean-db.sh'), [db], {cwd: Path.join(__dirname, '../../scripts')}, function(){
       done();
     });
   });
