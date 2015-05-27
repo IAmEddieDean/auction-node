@@ -48,26 +48,26 @@ describe('POST /users/authenticate', function(){
       done();
     });
   });
-  
+
   it('should return an error 400 on User.authenticate', function(done){
     var stub = Sinon.stub(User, 'authenticate').yields(new Error());
     server.inject({method: 'POST', url: '/users/authenticate', credentials: {_id: 'b00000000000000000000001'}, payload: {email: 'bbb@bbb.com', password: 'bbb'}}, function(response){
-      expect(response.statusCode).to.equal(400);
+      expect(response.statusCode).to.equal(418);
       stub.restore();
       done();
     });
   });
-  
+
   it('should return an error 400 on User.authenticate because there is no user', function(done){
     server.inject({method: 'POST', url: '/users/authenticate', credentials: {_id: 'b00000000000000000000001'}, payload: {email: '33andrew@test.com', password: '321'}}, function(response){
-      expect(response.statusCode).to.equal(400);
+      expect(response.statusCode).to.equal(418);
       done();
     });
   });
-  
+
   it('should return an error 400 on User.authenticate because the user password is incorrect', function(done){
     server.inject({method: 'POST', url: '/users/authenticate', credentials: {_id: 'b00000000000000000000001'}, payload: {email: 'bbb@bbb.com', password: '321'}}, function(response){
-      expect(response.statusCode).to.equal(400);
+      expect(response.statusCode).to.equal(418);
       done();
     });
   });
