@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "lab -v -c -t 100 -L -n eslint -e test",
+    "test": "lab -v -c -t 90 -L -n eslint -e test",
     "coverage": "lab -s -r lcov | coveralls"
   },
   "dependencies": {
