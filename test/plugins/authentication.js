@@ -30,7 +30,6 @@ describe('authentication.js', function(){
 
   beforeEach(function(done){
     var db = server.app.environment.MONGO_URL.split('/')[3];
-    console.log(db);
     CP.execFile(Path.join(__dirname, '../../scripts/clean-db.sh'), [db], {cwd: Path.join(__dirname, '../../scripts')}, function(){
       done();
     });

@@ -36,7 +36,6 @@ describe('GET /clients', function(){
   it('should find all clients', function(done){
     server.inject({method: 'GET', url: '/clients', headers: {authorization: 'Bearer ' + server.app.environment.LOCAL_TOKEN}}, function(response){
       expect(response.statusCode).to.equal(200);
-      console.log(response.result);
       expect(response.result.length).to.equal(3);
       done();
     });
