@@ -44,10 +44,30 @@ describe('PUT /items', function(){
     });
   });
 
-  it('should find an item', function(done){
-    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {userId: 'b00000000000000000000003'}, payload: {bid: 62}}, function(response){
+  it('should find an item and user', function(done){
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {_id: 'b00000000000000000000003'}, payload: {bid: 62}}, function(response){
       expect(response.statusCode).to.equal(200);
-      // expect(response.result.auction.toString()).to.equal('e00000000000000000000001');
+      expect(response.result.item._id.toString()).to.equal('e00000000000000000000001');
+      expect(response.result.user._id.toString()).to.equal('b00000000000000000000003');
+      done();
+    });
+  });
+  it('should error for not finding an item', function(done){
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000357', credentials: {userId: 'b00000000000000000000003'}, payload: {bid: 62}}, function(response){
+      expect(response.statusCode).to.equal(400);
+      done();
+    });
+  });
+  it('should error for not finding a user', function(done){
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {userId: 'b00000000000670000000003'}, payload: {bid: 62}}, function(response){
+      expect(response.statusCode).to.equal(400);
+      done();
+    });
+  });
+  it('should error for user role being too low', function(done){
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {userId: 'b00000000000000000000004'}, payload: {bid: 40}}, function(response){
+      console.log('lsdjfldsjflkjsdlkfjlksdjflsdjlfjlsdf∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆', response.statusCode);
+      expect(response.statusCode).to.equal(400);
       done();
     });
   });
