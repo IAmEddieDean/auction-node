@@ -6,8 +6,8 @@ var Chai = require('chai');
 var Lab = require('lab');
 var Mongoose = require('mongoose');
 var Server = require('../../../../lib/server');
-var Sinon = require('sinon');
-var Auction = require('../../../../lib/models/auction');
+// var Sinon = require('sinon');
+// var Auction = require('../../../../lib/models/auction');
 
 var lab = exports.lab = Lab.script();
 var describe = lab.experiment;
@@ -53,39 +53,27 @@ describe('PUT /items', function(){
     });
   });
   it('should error for not finding an item', function(done){
-    server.inject({method: 'PUT', url: '/items/e00000000000000000000357', credentials: {userId: 'b00000000000000000000003'}, payload: {bid: 62}}, function(response){
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000357', credentials: {_id: 'b00000000000000000000003'}, payload: {bid: 62}}, function(response){
       expect(response.statusCode).to.equal(400);
       done();
     });
   });
   it('should error for not finding a user', function(done){
-    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {userId: 'b00000000000670000000003'}, payload: {bid: 62}}, function(response){
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {_id: 'b00000000000670000000003'}, payload: {bid: 62}}, function(response){
       expect(response.statusCode).to.equal(400);
       done();
     });
   });
   it('should error for user role being too low', function(done){
-    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {userId: 'b00000000000000000000004'}, payload: {bid: 40}}, function(response){
-      console.log('lsdjfldsjflkjsdlkfjlksdjflsdjlfjlsdf∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆∆', response.statusCode);
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {_id: 'b00000000000000000000001'}, payload: {bid: 62}}, function(response){
       expect(response.statusCode).to.equal(400);
       done();
     });
   });
-
-  // it('should create a new item', function(done){
-  //   server.inject({method: 'POST', url: '/items', credentials: {userId: 'b00000000000000000000003'}, payload: {title: 'testItem', lot: 'a12', auction: 'test', startPrice: 25, description: 'lkjsdsfdsfddf', startTime: 1432857047489, endTime: 1433461682000}}, function(response){
-  //     expect(response.statusCode).to.equal(200);
-  //     expect(response.result.title).to.equal('testItem');
-  //     done();
-  //   });
-  // });
-  //
-  // it('should throw a db error', function(done){
-  //   var stub = Sinon.stub(Auction, 'findOne').yields(new Error());
-  //   server.inject({method: 'POST', url: '/items', credentials: {userId: 'b00000000000000000000003'}, payload: {title: 'testItem', lot: 'a12', auction: 'test', startPrice: 25, description: 'lkjsdsfdsfddf', startTime: 1432857047489, endTime: 1433461682000}}, function(response){
-  //     expect(response.statusCode).to.equal(400);
-  //     stub.restore();
-  //     done();
-  //   });
-  // });
+  it('should error for bid being too low', function(done){
+    server.inject({method: 'PUT', url: '/items/e00000000000000000000001', credentials: {_id: 'b00000000000000000000003'}, payload: {bid: 2}}, function(response){
+      expect(response.statusCode).to.equal(400);
+      done();
+    });
+  });
 });
