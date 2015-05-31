@@ -25,6 +25,7 @@
     "hoek": "^2.14.0",
     "joi": "^6.4.2",
     "jwt-simple": "^0.3.0",
+    "lodash": "^3.9.3",
     "moment": "^2.10.3",
     "mongoose": "^4.0.3",
     "travis-encrypt": "^1.1.1"
