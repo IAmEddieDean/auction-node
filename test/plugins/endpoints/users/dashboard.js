@@ -6,6 +6,8 @@ var Chai = require('chai');
 var Lab = require('lab');
 var Mongoose = require('mongoose');
 var Server = require('../../../../lib/server');
+var Item = require('../../../../lib/models/item');
+var Sinon = require('sinon');
 
 var lab = exports.lab = Lab.script();
 var describe = lab.experiment;
@@ -44,6 +46,26 @@ describe('GET /users', function(){
   it('should return an existing user', function(done){
     server.inject({method: 'GET', url: '/users/bobson', credentials: {_id: 'b00000000000000000000002'}}, function(response){
       expect(response.statusCode).to.equal(200);
+      done();
+    });
+  });
+  it('should return a users bids', function(done){
+    server.inject({method: 'GET', url: '/users/bobson', credentials: {_id: 'b00000000000000000000002'}}, function(response){
+      expect(response.statusCode).to.equal(200);
+      done();
+    });
+  });
+  it('should err for no user', function(done){
+    server.inject({method: 'GET', url: '/users/bobson', credentials: {_id: 'b00000000000340000000002'}}, function(response){
+      expect(response.statusCode).to.equal(400);
+      done();
+    });
+  });
+  it('should db err for item.find', function(done){
+    var stub = Sinon.stub(Item, 'exec').yields(new Error());
+    server.inject({method: 'GET', url: '/users/bobson', credentials: {_id: 'b00000000000000000000002'}}, function(response){
+      expect(response.statusCode).to.equal(400);
+      stub.restore();
       done();
     });
   });
