@@ -62,7 +62,7 @@ describe('GET /users', function(){
     });
   });
   it('should db err for item.find', function(done){
-    var stub = Sinon.stub(Item, 'exec').yields(new Error());
+    var stub = Sinon.stub(Item.prototype, 'exec').yields(new Error());
     server.inject({method: 'GET', url: '/users/bobson', credentials: {_id: 'b00000000000000000000002'}}, function(response){
       expect(response.statusCode).to.equal(400);
       stub.restore();
