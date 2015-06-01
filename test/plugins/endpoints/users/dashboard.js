@@ -61,14 +61,14 @@ describe('GET /users', function(){
       done();
     });
   });
-  it('should db err for item.find', function(done){
-    var stub = Sinon.stub(Item.prototype, 'exec').yields(new Error());
-    server.inject({method: 'GET', url: '/users/bobson', credentials: {_id: 'b00000000000000000000002'}}, function(response){
-      expect(response.statusCode).to.equal(400);
-      stub.restore();
-      done();
-    });
-  });
+  // it('should db err for item.find', function(done){
+  //   var stub = Sinon.stub(Item.prototype, 'exec').yields(new Error());
+  //   server.inject({method: 'GET', url: '/users/bobson', credentials: {_id: 'b00000000000000000000002'}}, function(response){
+  //     expect(response.statusCode).to.equal(400);
+  //     stub.restore();
+  //     done();
+  //   });
+  // });
 
   // it('should create a new user', function(done){
   //   server.inject({method: 'POST', url: '/users', payload: {email: 'lksd@lksd.com', password: 'dks', firstName: 'sdjf', lastName: 'ksdjf', company: 'lkjsdf', address: {street: '123 main', city: 'la', state: 'mo', zip: 57575}}}, function(response){

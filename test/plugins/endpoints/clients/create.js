@@ -6,6 +6,7 @@ var Chai = require('chai');
 var Lab = require('lab');
 var Mongoose = require('mongoose');
 var Server = require('../../../../lib/server');
+var Sinon = require('sinon');
 
 var lab = exports.lab = Lab.script();
 var describe = lab.experiment;
@@ -48,6 +49,13 @@ describe('POST /clients', function(){
   //   });
   // });
 
+  it('should create a new client', function(done){
+    server.inject({method: 'POST', url: '/clients', credentials: {userId: 'b00000000000000000000003'}, payload: {email: 'lksd@lksd.com', displayName: 'sdijio', phone: 5555555555, firstName: 'sdjf', lastName: 'ksdjf', company: 'lkjsdf', address: {street: '123 main', city: 'la', state: 'mo', zip: 57575}}}, function(response){
+      expect(response.statusCode).to.equal(200);
+      expect(response.result._id.toString()).to.have.length(24);
+      done();
+    });
+  });
   it('should create a new client', function(done){
     server.inject({method: 'POST', url: '/clients', credentials: {userId: 'b00000000000000000000003'}, payload: {email: 'lksd@lksd.com', displayName: 'sdijio', phone: 5555555555, firstName: 'sdjf', lastName: 'ksdjf', company: 'lkjsdf', address: {street: '123 main', city: 'la', state: 'mo', zip: 57575}}}, function(response){
       expect(response.statusCode).to.equal(200);
