@@ -7,7 +7,9 @@ var Lab = require('lab');
 var Mongoose = require('mongoose');
 var Server = require('../../../../lib/server');
 var Sinon = require('sinon');
-var Client = require('../../../../lib/models/client');
+var User = require('../../../../lib/models/user');
+var CP = require('child_process');
+var Path = require('path');
 
 var lab = exports.lab = Lab.script();
 var describe = lab.experiment;
@@ -16,12 +18,10 @@ var it = lab.test;
 var before = lab.before;
 var after = lab.after;
 var beforeEach = lab.beforeEach;
-var CP = require('child_process');
-var Path = require('path');
 
 var server;
 
-describe('GET /clients', function(){
+describe('GET /users', function(){
   before(function(done){
     Server.init(function(err, srvr){
       if(err){ throw err; }
@@ -31,7 +31,6 @@ describe('GET /clients', function(){
   });
   beforeEach(function(done){
     var db = server.app.environment.MONGO_URL.split('/')[3];
-    console.log(db);
     CP.execFile(Path.join(__dirname, '../../../../scripts/clean-db.sh'), [db], {cwd: Path.join(__dirname, '../../../../scripts')}, function(){
       done();
     });
@@ -43,16 +42,22 @@ describe('GET /clients', function(){
     });
   });
 
-  it('should find all clients', function(done){
-    server.inject({method: 'GET', url: '/clients', headers: {authorization: 'Bearer ' + server.app.environment.LOCAL_TOKEN}}, function(response){
+  it('should find all users', function(done){
+    server.inject({method: 'GET', url: '/users', headers: {authorization: 'Bearer ' + server.app.environment.LOCAL_TOKEN}}, function(response){
       expect(response.statusCode).to.equal(200);
-      expect(response.result.length).to.equal(3);
+      expect(response.result.length).to.equal(5);
+      done();
+    });
+  });
+  it('should err for no token', function(done){
+    server.inject({method: 'GET', url: '/users'}, function(response){
+      expect(response.statusCode).to.equal(401);
       done();
     });
   });
   it('should cause db err', function(done){
-    var stub = Sinon.stub(Client, 'find').yields(new Error());
-    server.inject({method: 'GET', url: '/clients', headers: {authorization: 'Bearer ' + server.app.environment.LOCAL_TOKEN}}, function(response){
+    var stub = Sinon.stub(User, 'find').yields(new Error());
+    server.inject({method: 'GET', url: '/users', headers: {authorization: 'Bearer ' + server.app.environment.LOCAL_TOKEN}}, function(response){
       expect(response.statusCode).to.equal(400);
       stub.restore();
       done();
